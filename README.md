@@ -1,0 +1,165 @@
+# ansiesc.nvim
+
+A Neovim plugin that renders ANSI color escape codes as actual colors in buffers using concealer.
+
+## Features
+
+- Renders ANSI escape sequences as actual colors
+- Uses Neovim's concealer to hide escape codes
+- Supports foreground and background colors
+- Supports text attributes (bold, italic, underline)
+- Real-time highlighting updates as you edit
+- Configurable auto-enable for specific filetypes
+
+## Installation
+
+### Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+{
+  'qeuroal/ansiesc.nvim',
+  cmd = { "AnsiEnable" },
+  config = function()
+    require('ansi').setup({
+      auto_enable = false,  -- Auto-enable for configured filetypes
+      filetypes = { 'log', 'ansi' },  -- Filetypes to auto-enable
+    })
+  end
+}
+```
+
+### Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
+
+```lua
+use {
+  'qeuroal/ansiesc.nvim',
+  config = function()
+    require('ansi').setup()
+  end
+}
+```
+
+### Using [vim-plug](https://github.com/junegunn/vim-plug)
+
+```vim
+Plug 'qeuroal/ansiesc.nvim'
+
+" In your init.lua or vimrc:
+lua require('ansi').setup()
+```
+
+### Manual Installation
+
+```bash
+git clone https://github.com/qeuroal/ansiesc.nvim.git ~/.local/share/nvim/site/pack/plugins/start/ansiesc.nvim
+```
+
+## Usage
+
+### Commands
+
+- `:AnsiEnable` - Enable ANSI color rendering for current buffer
+- `:AnsiDisable` - Disable ANSI color rendering for current buffer  
+- `:AnsiToggle` - Toggle ANSI color rendering for current buffer
+
+### Lua API
+
+```lua
+local ansi = require('ansi')
+
+-- Setup with custom config
+ansi.setup({
+  auto_enable = true,
+  filetypes = { 'log', 'ansi', 'term' }
+})
+
+-- Manual control
+ansi.enable()    -- Enable for current buffer
+ansi.disable()   -- Disable for current buffer
+ansi.toggle()    -- Toggle for current buffer
+```
+
+## Configuration
+
+```lua
+require('ansi').setup({
+  -- Automatically enable for configured filetypes
+  auto_enable = false,
+  
+  -- Filetypes to auto-enable when auto_enable is true
+  filetypes = { 'log', 'ansi' },
+  
+  -- Color theme: 'classic', 'modern', 'catppuccin', 'dracula', 'onedark', 'gruvbox', 'terminal'
+  theme = 'gruvbox',
+})
+```
+
+### Color Themes
+
+- `'classic'` - Traditional ANSI colors (muted, original)
+- `'modern'` - Modern terminal colors (vibrant, like Windows Terminal)
+- `'catppuccin'` - Soft pastel colors
+- `'dracula'` - Dracula theme colors
+- `'onedark'` - One Dark theme colors
+- `'gruvbox'` - Gruvbox dark colors (like bat uses)
+- `'gruvbox_dark'` - Same as 'gruvbox'
+- `'gruvbox_light'` - Gruvbox light variant
+- `'terminal'` - Try to use your terminal's actual colors
+
+## Supported ANSI Codes
+
+### Colors
+- Standard colors: black, red, green, yellow, blue, magenta, cyan, white
+- Bright colors: bright_black, bright_red, etc.
+- Both foreground (30-37, 90-97) and background (40-47, 100-107) colors
+
+### Text Attributes
+- Bold (1)
+- Italic (3) 
+- Underline (4)
+- Reset (0)
+
+## Testing
+
+### Quick Test
+
+1. Open the provided test file:
+   ```bash
+   nvim test_ansi.txt
+   ```
+
+2. Enable ANSI rendering:
+   ```vim
+   :AnsiEnable
+   ```
+
+3. You should see colored text with ANSI escape sequences concealed
+
+### Generate Test Data
+
+Use the provided script to generate ANSI output:
+
+```bash
+# Generate test output
+./test_script.sh > test_output.log
+
+# Open in Neovim
+nvim test_output.log
+
+# Enable ANSI rendering
+:AnsiEnable
+```
+
+### Manual Testing
+
+Create a buffer with ANSI codes:
+
+```
+[31mThis is red text[0m
+[32;1mThis is bold green text[0m
+[33;4mThis is underlined yellow text[0m
+[34;42mThis is blue text on green background[0m
+```
+
+Then run `:AnsiEnable` to see the colors rendered.
+
