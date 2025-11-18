@@ -155,10 +155,10 @@ nvim test_output.log
 Create a buffer with ANSI codes:
 
 ```
-[31mThis is red text[0m
-[32;1mThis is bold green text[0m
-[33;4mThis is underlined yellow text[0m
-[34;42mThis is blue text on green background[0m
+[31mThis is red text[0m
+[32;1mThis is bold green text[0m
+[33;4mThis is underlined yellow text[0m
+[34;42mThis is blue text on green background[0m
 ```
 
 Then run `:AnsiEnable` to see the colors rendered.
